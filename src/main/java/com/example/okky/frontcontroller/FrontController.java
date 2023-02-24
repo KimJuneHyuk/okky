@@ -26,13 +26,17 @@ public class FrontController extends HttpServlet {
         req.setCharacterEncoding("utf-8");
         String requestURI = req.getRequestURI();
         String method = req.getMethod();
+
+//        log 확인부분...
         log.info("method = {}, requestURI = {}",req.getMethod(),requestURI);
+
         Command command = new MappingFactory().createCommand(requestURI, method);
 
         if(command == null){
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
+
         View view = command.execute(req, resp);
         if(view != null) view.render(req, resp);
     }
